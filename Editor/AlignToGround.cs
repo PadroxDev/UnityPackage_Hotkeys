@@ -1,38 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace Antoine.Hotkeys {
     public static class AlignToGround {
-        
         [MenuItem("Tools/Align To Ground _END")]
         public static void AlignToGroundEND() {
             var selectedObjects = Selection.gameObjects;
-            var groundedObjects = new List<Object>();
+            
+            Undo.RecordObjects(
+                selectedObjects.Select(go => (Object)go.transform).ToArray(), 
+                "Align To Ground"
+            );
             
             foreach (var obj in selectedObjects) {
-                bool success = AlignObjectToGround(obj);
-
-                if (success) {
-                    groundedObjects.Add(obj);
-                }
-            }
-
-            if (groundedObjects.Count > 0) {
-                Undo.RecordObjects(groundedObjects.ToArray(), "Align To Ground");
+                AlignObjectToGround(obj);
             }
         }
         
-        public static bool AlignObjectToGround(GameObject obj) {
-            if (obj == null) return false;
+        public static void AlignObjectToGround(GameObject obj) {
+            if (obj == null) return;
 
             var ray = new Ray(obj.transform.position, Vector3.down);
             if (Physics.Raycast(ray, out RaycastHit hit)) {
                 obj.transform.position = hit.point;
-                return true;
             }
-
-            return false;
         }
     }
 }
