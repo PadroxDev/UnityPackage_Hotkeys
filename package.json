@@ -1,0 +1,12 @@
+{
+  "name": "com.antoine.hotkeys",
+  "version": "1.0.0",
+  "displayName": "Hotkeys",
+  "description": "A handful of useful hotkeys.",
+  "unity": "6000.3",
+  "unityRelease": "0a5",
+  "author": {
+    "name": "Antoine",
+    "email": "antoinevollet.pro@gmail.com"
+  }
+}
